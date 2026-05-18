@@ -36,6 +36,35 @@ This section describes the steps required to configure GitHub authentication for
 - Authentication for the CodePipeline source will be performed automatically using the `github-token` secret stored in AWS Secrets Manager
 - If you rotate the value in the Secret, you must also change at least one property on the Pipeline to force CloudFormation to re-read the secret
 
+## Troubleshooting
+
+### npm ci fails with "Missing: jsonschema@1.4.1 from lock file"
+
+This is a known issue with aws-cdk-lib@2.254.0 and npm 11. The problem occurs due to conflicting bundled dependency versions:
+
+- aws-cdk-lib bundles `jsonschema@1.5.0` at the top level
+- But also bundles `@aws-cdk/cloud-assembly-api@2.2.3` which requires `jsonschema@~1.4.1`
+- The version constraint `~1.4.1` excludes version `1.5.0`, creating an unsatisfiable dependency conflict
+- npm 11's stricter bundled dependency validation detects this mismatch in the lock file
+
+**Solution:**
+
+Run the following command to regenerate the package lock file:
+
+```bash
+npm install --package-lock-only
+```
+
+Then proceed with:
+
+```bash
+npm ci
+npm run build
+npm test
+```
+
+For more details, see the [AWS CDK GitHub issue #37870](https://github.com/aws/aws-cdk/issues/37870).
+
 ## Resources
 
 - 🎓 [Udemy Course — AWS TypeScript CDK, Serverless & React](https://www.udemy.com/course/aws-typescript-cdk-serverless-react/?couponCode=CP260518ALTMX)
