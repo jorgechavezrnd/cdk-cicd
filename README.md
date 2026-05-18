@@ -65,6 +65,16 @@ npm test
 
 For more details, see the [AWS CDK GitHub issue #37870](https://github.com/aws/aws-cdk/issues/37870).
 
+## esbuild Requirement for cdk synth
+
+Install `esbuild` in the project so CDK can bundle Lambda assets locally during synthesis:
+
+```bash
+npm i esbuild
+```
+
+If `esbuild` is not installed, `cdk synth` falls back to Docker to execute the bundling step.
+
 ## Resources
 
 - 🎓 [Udemy Course — AWS TypeScript CDK, Serverless & React](https://www.udemy.com/course/aws-typescript-cdk-serverless-react/?couponCode=CP260518ALTMX)
