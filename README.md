@@ -75,6 +75,22 @@ npm i esbuild
 
 If `esbuild` is not installed, `cdk synth` falls back to Docker to execute the bundling step.
 
+## CDK Workflow: Before and After CI/CD Pipeline
+
+### Until now with CDK
+
+- Define our stacks
+- Add them inside the `bin` file (the one with `app`)
+- Run `cdk synth`
+- Run `cdk deploy`
+
+### With CodePipeline
+
+- Define one Pipeline stack inside the `bin` file (the one with `app`)
+- The pipeline contains stages (construct: `Stage`)
+- The stages hold other stacks
+- The pipeline runs synth/deploy automatically when code changes are pushed
+
 ## Resources
 
 - 🎓 [Udemy Course — AWS TypeScript CDK, Serverless & React](https://www.udemy.com/course/aws-typescript-cdk-serverless-react/?couponCode=CP260518ALTMX)
